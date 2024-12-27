@@ -4,23 +4,26 @@ services:
     container_name: local-gateway
     ports:
       - "80:80"
-      #- "443:443"
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./key.pem:/tmp/key.pem:ro
+      - ./cert.pem:/tmp/cert.pem:ro
+
     restart: always
     extra_hosts:
       - "host.docker.internal:127.0.0.1"
     network_mode: "host"
 
-  mongodb:
-    image: mongo
-    container_name: local-mongodb
-    ports:
-      - 27017:27017
-    volumes:
-      - local-mongodb:/data/db
+  # mongodb:
+  #   image: mongo
+  #   container_name: local-mongodb
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - local-mongodb:/data/db
 
-volumes:
-  local-mongodb:
-    external: true
+# volumes:
+#   local-mongodb:
+#     external: true
