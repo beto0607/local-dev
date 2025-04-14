@@ -21,6 +21,19 @@ services:
     volumes:
       - local-mongodb:/data/db
 
+  mysqldb:
+    image: mysql:latest
+    container_name: local-mysqldb
+    environment:
+     - MYSQL_ALLOW_EMPTY_PASSWORD=true
+     - MYSQL_DATABASE=local-db
+    ports:
+      - "3306:3306"
+    volumes:
+     - local-mysqldb:/var/lib/mysql
+
 volumes:
   local-mongodb:
+    external: true
+  local-mysqldb:
     external: true
