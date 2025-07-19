@@ -32,6 +32,18 @@ services:
     volumes:
      - local-mysqldb:/var/lib/mysql
 
+  home-lamp:
+    image: home-lamp:latest
+    container_name: home-lamp
+    environment:
+      - PORT=8979
+      - LAMP_MAC_ADDRESS=D6:5A:AD:D3:6C:87
+    ports:
+      - "8979:8979"
+    restart: always
+    volumes:
+      - /var/run/dbus/:/var/run/dbus/:z
+
 volumes:
   local-mongodb:
     external: true
