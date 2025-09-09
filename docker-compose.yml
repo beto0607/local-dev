@@ -1,17 +1,17 @@
 services:
   gateway:
-    image: nginx:latest
-    container_name: local-gateway
+    image: caddy:latest
+    restart: unless-stopped
     ports:
       - "80:80"
-      #- "443:443"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    restart: always
-    extra_hosts:
-      - "host.docker.internal:127.0.0.1"
+      - "443:443"
+      - "443:443/udp"
     network_mode: "host"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./www:/srv
+      - caddy_data:/data
+      - caddy_config:/config
 
   mongodb:
     image: mongo
@@ -37,3 +37,5 @@ volumes:
     external: true
   local-mysqldb:
     external: true
+  caddy_data:
+  caddy_config:
