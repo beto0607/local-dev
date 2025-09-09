@@ -1,0 +1,120 @@
+#### Personal
+
+desk.local {
+	handle /prod-pulse/* {
+		uri strip_prefix /prod-pulse
+		reverse_proxy localhost:6060
+	}
+	redir /prod-pulse /prod-pulse/
+
+	handle /socioio-api/* {
+		uri strip_prefix /socioio-api
+		reverse_proxy localhost:3000
+	}
+	redir /socioio-api /socioio-api/
+
+	handle /socioio-client/* {
+		uri strip_prefix /socioio-client
+		reverse_proxy localhost:4200
+	}
+	redir /socioio-client /socioio-client/
+
+	handle /toggler/* {
+		uri strip_prefix /toggler
+		reverse_proxy localhost:8080
+	}
+	redir /toggler /toggler/
+
+	handle /meetdicer/* {
+		uri strip_prefix /meetdicer
+		reverse_proxy localhost:9098
+	}
+	redir /meetdicer /meetdicer/
+
+	handle /sl-viewer/* {
+		uri strip_prefix /sl-viewer
+		reverse_proxy localhost:5173
+	}
+	redir /sl-viewer /sl-viewer/
+
+	handle /drafter-api/* {
+		uri strip_prefix /drafter-api
+		reverse_proxy localhost:8788
+	}
+	redir /drafter-api /drafter-api/
+
+	handle /drafter-client/* {
+		uri strip_prefix /drafter-client
+		reverse_proxy localhost:8787
+	}
+	redir /drafter-client /drafter-client/
+
+	file_server
+}
+
+#### Banneflow
+
+remote-account-admin.bannerflow.com {
+	tls internal
+	reverse_proxy http://host.docker.internal:5560
+}
+
+remote-adminpanel.bannerflow.com {
+	tls internal
+	reverse_proxy http://host.docker.internal:9899
+}
+
+remote-analytics.bannerflow.com {
+	tls internal
+	reverse_proxy http://host.docker.internal:5007
+}
+
+remote-cm.bannerflow.com {
+	tls internal
+	reverse_proxy http://host.docker.internal:4344
+}
+
+remote-commentservice.bannerflow.com {
+	tls internal
+	reverse_proxy https://host.docker.internal:4333
+}
+
+remote-fontmanager.bannerflow.com {
+	tls internal
+	reverse_proxy http://host.docker.internal:4444
+}
+
+remote-frontendtemplate.bannerflow.com {
+	tls internal
+	reverse_proxy http://host.docker.internal:5555
+}
+
+remote-home.bannerflow.com {
+	tls internal
+	reverse_proxy http://host.docker.internal:42000
+}
+
+remote-lp2.bannerflow.com {
+	tls internal
+	reverse_proxy http://host.docker.internal:5555
+}
+
+remote-notification.bannerflow.com {
+	tls internal
+	reverse_proxy https://host.docker.internal:9898
+}
+
+remote-publishadmin.bannerflow.com {
+	tls internal
+	reverse_proxy http://host.docker.internal:5002
+}
+
+remote-scm.bannerflow.com {
+	tls internal
+	reverse_proxy http://host.docker.internal:7788
+}
+
+remote-studio.bannerflow.com {
+	tls internal
+	reverse_proxy http://remote-studio.bannerflow.com:3000
+}

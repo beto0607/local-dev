@@ -1,4 +1,19 @@
-127.0.0.1 mongodb.local
-127.0.0.1 toggler.local
-127.0.0.1 sl-viewer.local
-127.0.0.1 todo.local
+# Personal
+127.0.0.1 desk.local
+
+
+# Bannerflow
+127.0.0.1 remote-account-admin.bannerflow.com
+127.0.0.1 remote-adminpanel.bannerflow.com
+127.0.0.1 remote-analytics.bannerflow.com
+127.0.0.1 remote-cm.bannerflow.com
+127.0.0.1 remote-commentservice.bannerflow.com
+127.0.0.1 remote-fontmanager.bannerflow.com
+127.0.0.1 remote-frontendtemplate.bannerflow.com
+127.0.0.1 remote-home.bannerflow.com
+127.0.0.1 remote-lp.bannerflow.com
+127.0.0.1 remote-notification.bannerflow.com
+127.0.0.1 remote-publishadmin.bannerflow.com
+127.0.0.1 remote-scm.bannerflow.com
+127.0.0.1 remote-studio.bannerflow.com 
+
