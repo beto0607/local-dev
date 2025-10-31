@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home Links</title>
+    <style>
+        body {
+            background-color: #999;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            place-self: center;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 0;
+            text-align: left;
+            place-self: center;
+        }
+
+        li button {
+            margin-left: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Useful links </h1>
+
+    <ul>
+        <li>
+            <a href="/zigbee/">💡 Lamp conf</a>
+            <button id="toggle-lamp" onclick="toggleLamp()"> Loading </button>
+        </li>
+        <li>
+            <a href="/prod-pulse/">📊 Prod pulse</a>
+        </li>
+        <li>
+            <a href="/sl-viewer/">🚂 SL departure times</a>
+        </li>
+        <li>
+            <a href="/transmission/">📶 Transmission torrent</a>
+        </li>
+        <li>
+            <a href="https://music.local">🎵 Music</a>
+        </li>
+    </ul>
+    <script>
+        let currentLampState = 'OFF'
+        const topic = "0x001788010e1d93d5"
+        const url = "wss://lab.local/zigbee/api";
+        const socket = new WebSocket(url);
+        socket.addEventListener("message", (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                if (data.topic === topic) {
+                    currentLampState = data.payload.state
+                    updateButtonCaption()
+                }
+            } catch (e) {
+                console.error(e)
+                console.error(event.data)
+            }
+        });
+
+        function toggleLamp() {
+            socket.send(JSON.stringify({
+                "topic": `${topic}/set`,
+                "payload": {
+                    "state": currentLampState === 'ON' ? 'OFF' : 'ON'
+                }
+            }));
+        }
+
+        function updateButtonCaption() {
+            const button = document.getElementById("toggle-lamp");
+            button.innerText = 'Toggle: ' + (currentLampState === 'ON' ? 'OFF' : 'ON');
+        }
+    </script>
+
+</body>
+
+</html>

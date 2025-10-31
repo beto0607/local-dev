@@ -1,0 +1,23 @@
+{
+    "version": "2",
+    "manifest_version": 2,
+    "name": "Zigbee2MQTT",
+    "short_name": "Z2M",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#1c1c1c",
+    "theme_color": "#4a90e2",
+    "description": "Control your Zigbee devices with the Zigbee2MQTT PWA.",
+    "icons": [
+        {
+            "src": "/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
