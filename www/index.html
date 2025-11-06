@@ -38,7 +38,24 @@
     <ul>
         <li>
             <a href="/zigbee/">💡 Lamp conf</a>
-            <button id="toggle-lamp" onclick="toggleLamp()"> Loading </button>
+            <br />
+            <div>
+                <label for="toggle-group"> Living room lamps</label>
+                <button id="toggle-group" onclick="toggleLamp(devices[0])"> Loading </button>
+            </div>
+            <br />
+            <div>
+                <label for="toggle-tall-lamp"> Tall lamp</label>
+                <button id="toggle-tall-lamp" onclick="toggleLamp(devices[1])"> Loading </button>
+            </div>
+            <div>
+                <label for="toggle-kallax-lamp"> Kallax lamp</label>
+                <button id="toggle-kallax-lamp" onclick="toggleLamp(devices[2])"> Loading </button>
+            </div>
+            <div>
+                <label for="toggle-i-desk-lamp"> Irina's desk lamp</label>
+                <button id="toggle-i-desk-lamp" onclick="toggleLamp(devices[3])"> Loading </button>
+            </div>
         </li>
         <li>
             <a href="/prod-pulse/">📊 Prod pulse</a>
@@ -54,16 +71,48 @@
         </li>
     </ul>
     <script>
-        let currentLampState = 'OFF'
-        const topic = "0x001788010e1d93d5"
+        const devices = [
+            {
+                topic: "Living room lamps",
+                state: "--",
+                buttonId: "toggle-group",
+                members: ["Tall lamp", "Kallax lamp"]
+            },
+            {
+                topic: "Tall lamp",
+                state: "LOADING",
+                buttonId: "toggle-tall-lamp"
+            },
+            {
+                topic: "Kallax lamp",
+                state: "LOADING",
+                buttonId: "toggle-kallax-lamp"
+            },
+            {
+                topic: "Irina's desk lamp",
+                state: "LOADING",
+                buttonId: "toggle-i-desk-lamp"
+            },
+        ];
+
         const url = "wss://lab.local/zigbee/api";
         const socket = new WebSocket(url);
+
         socket.addEventListener("message", (event) => {
             try {
                 const data = JSON.parse(event.data);
-                if (data.topic === topic) {
-                    currentLampState = data.payload.state
-                    updateButtonCaption()
+                console.log(data)
+                const dev = devices.find(({topic}) => topic === data.topic);
+                if (dev) {
+                    dev.state = data.payload.state;
+                    if (dev !== devices[0]) { // manually updating group
+                        devices[0].state = devices[0].members
+                            .every((memberId) =>
+                                devices.find(({topic}) => topic === memberId).state === 'ON')
+                            ? 'ON' : 'OFF';
+                    }
+                    updateButtons();
+                    return
                 }
             } catch (e) {
                 console.error(e)
@@ -71,18 +120,19 @@
             }
         });
 
-        function toggleLamp() {
+        function toggleLamp({topic, state}) {
             socket.send(JSON.stringify({
                 "topic": `${topic}/set`,
                 "payload": {
-                    "state": currentLampState === 'ON' ? 'OFF' : 'ON'
+                    "state": state === 'ON' ? 'OFF' : 'ON'
                 }
             }));
         }
 
-        function updateButtonCaption() {
-            const button = document.getElementById("toggle-lamp");
-            button.innerText = 'Toggle: ' + (currentLampState === 'ON' ? 'OFF' : 'ON');
+        function updateButtons() {
+            devices.forEach(({state, buttonId}) => {
+                document.getElementById(buttonId).innerText = state;
+            })
         }
     </script>
 
